@@ -6,6 +6,9 @@ import cookieParser from 'cookie-parser'
 import compression from 'compression'
 import fileupload from 'express-fileupload'
 import ExpressMongoSanitize from 'express-mongo-sanitize'
+import logger from './configs/logger'
+import createHttpError from 'http-errors'
+import routers from './routes'
 const app=express()
 
 
@@ -23,10 +26,28 @@ app.use(fileupload({useTempFiles:true}))
 app.use(cors({
     origin:["http://localhost:3001",]
 }))
-
+app.use("/api/v1",routers)
 
 app.post("/",(req,res)=>{
+logger.info("hi")
+logger.error("hi")
 
     res.send(req.body)
 })
+
+app.use(async(req:any,res:any,next:any)=>{
+    next(createHttpError.NotFound("This route does not exist."))
+    
+})
+
+app.use(async(err:any,req:any,res:any,next:any)=>{
+    res.status(err.status||500)
+    res.send({
+        error:{
+            status:err.status||500,
+            message:err.message
+        }
+    })
+})
+
 export default app
