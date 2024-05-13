@@ -7,11 +7,11 @@ dotenv.config()
 
 const {MONGODB_URL,NODE_ENV}=process.env
 const  PORT =process.env.PORT||3001
-
+const DBLINK=NODE_ENV==="production"?MONGODB_URL:"mongodb://localhost:27017"
 
 let server: any
 
-mongoose.connect(MONGODB_URL!).then(()=>{
+mongoose.connect(DBLINK!).then(()=>{
     server =app.listen(PORT,()=>{
         logger.info(`Server connected to db and listening at ${PORT}`)
     })

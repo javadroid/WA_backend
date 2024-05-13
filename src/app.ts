@@ -28,11 +28,11 @@ app.use(cors({
 }))
 app.use("/api/v1",routers)
 
-app.post("/",(req,res)=>{
+app.post("/",(req,res,next)=>{
 logger.info("hi")
 logger.error("hi")
-
-    res.send(req.body)
+throw (createHttpError.BadRequest("This route does not exist."))
+    // res.send(req.body)
 })
 
 app.use(async(req:any,res:any,next:any)=>{
