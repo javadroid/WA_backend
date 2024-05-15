@@ -34,7 +34,7 @@ export const sendMessage = async (
         "please provide  a conversation id and a message"
       );
     }
-    let user_user = await getUser(user_id);
+   
       let msgData = {
         sender: user_id,
         message,
@@ -42,7 +42,7 @@ export const sendMessage = async (
       };
       const newMessage = await createMessage(msgData);
      
-    const updatedMessage= await updateLastestMessage(convo_id,message)
+    const updatedMessage= await updateLastestMessage(convo_id,newMessage._id)
     console.log(updatedMessage)
     const populateMsg=await populateMessage(newMessage._id)
       res.json(populateMsg);

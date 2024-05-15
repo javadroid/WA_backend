@@ -70,7 +70,7 @@ export const populateConversation = async (
 
 export const updateLastestMessage = async (conco_id: any,message: any) => {
   let updatedConvo = await ConversationModel.findByIdAndUpdate(conco_id,{
-    lastestMessage:message
+    latestMessage:message
   },{new:true});
   if (!updatedConvo)
     throw createHttpError.BadGateway("Oops... Something wrong happened");
