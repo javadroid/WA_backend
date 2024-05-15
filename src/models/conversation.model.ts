@@ -7,7 +7,12 @@ const conversationSchema = new Schema({
         required: [true, 'Conversation is required.'],
         trim: true,
     },
-   
+   picture:{
+    type: String,
+    trim: true,
+    default: "https://st3.depositphotos.com/6672868/13701/v/380/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+
+   },
     isGroup: {
         type: Boolean,
         required: true,

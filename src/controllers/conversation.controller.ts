@@ -18,11 +18,7 @@ import {
   populateConversation,
 } from "../services/conversation.service";
 
-export const createOpenConversation = async (
-  req: any,
-  res: any,
-  next: any
-) => {
+export const createOpenConversation = async (req: any, res: any, next: any) => {
   try {
     const { receiver_id } = req.body;
     const sender_id = req.user.userId;
@@ -44,11 +40,16 @@ export const createOpenConversation = async (
       let receiver_user = await getUser(receiver_id);
       let convoData = {
         name: receiver_user.name,
+        picture:receiver_user.picture,
         isGroup: false,
         users: [sender_id, receiver_id],
       };
       const newConvo = await createConversaction(convoData);
-      const populateConvo=await populateConversation(newConvo._id,"users","-password")
+      const populateConvo = await populateConversation(
+        newConvo._id,
+        "users",
+        "-password"
+      );
       res.json(populateConvo);
     }
   } catch (error) {
@@ -58,11 +59,10 @@ export const createOpenConversation = async (
 
 export const getConversation = async (req: any, res: any, next: any) => {
   try {
-    const user_id=req.user.userId
-    const conversation=await getUserConversations(user_id)
-    res.status(200).json(conversation)
+    const user_id = req.user.userId;
+    const conversation = await getUserConversations(user_id);
+    res.status(200).json(conversation);
   } catch (error) {
     next(error);
   }
 };
-
