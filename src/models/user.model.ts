@@ -36,19 +36,20 @@ const userSchema = new Schema({
 }, {
     timestamps: true,
 });
+  userSchema.pre("save", async function (next) {
+    try {
+        if (this.isNew) {
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(this.password, salt);
+            this.email=this.email.toLowerCase()
+            this.password = hash;
+        }
+    } catch (error) {
+        // Handle error
+    }
 
-//   userSchema.pre("save",async (next:any)=>{
-//     try {
-//         if(this?.isNew){
-//             const salt= await bcrypt.genSalt(10)
-//             const hash= await bcrypt.hash(this?.password,salt)
-//             this?.password = hash
-//         }
-//     } catch (error) {
-
-//     }
-
-//   })
+    next();
+});
 const UserModel = models.UserModel || model('UserModel', userSchema);
 
 export default UserModel

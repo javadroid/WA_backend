@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 
 import createHttpError from "http-errors";
-import { JwtSecret, createUser, loginUser, logoutUser, verifyToken } from "../services/auth.service";
-import logger from "../configs/logger";
+import {  createUser, loginUser, logoutUser, verifyToken } from "../services/auth.service";
+
 
 
 export const register = async (req: any, res: any, next: any) => {
@@ -46,7 +46,7 @@ export const refresh_token = async (req: any, res: any, next: any) => {
         const access_token = jwt.sign({
             userId: User._id
         },
-            JwtSecret,
+            process.env.JwtSecret!,
         );
 
         return res.status(201).json({ access_token, user_data: User, auth: true, })
