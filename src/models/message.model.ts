@@ -15,7 +15,7 @@ const messageSchema = new Schema({
         type: ObjectId,
         ref:"ConversationModel"
     },
-    file:[]
+    files:[]
 
 }, {
     timestamps: true,

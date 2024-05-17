@@ -38,6 +38,7 @@ export const sendMessage = async (
       let msgData = {
         sender: user_id,
         message,
+        files,
         conversation: convo_id,
       };
       const newMessage = await createMessage(msgData);

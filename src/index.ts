@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import app from './app'
 import logger from './configs/logger'
+import { Server } from 'socket.io'
+import SocketServer from './SocketServer'
 
 dotenv.config()
 
@@ -14,7 +16,21 @@ let server: any
 mongoose.connect(DBLINK!).then(()=>{
     server =app.listen(PORT,()=>{
         logger.info(`Server connected to db and listening at ${PORT}`)
+    }) 
+
+    const io =new Server(server,{
+        pingTimeout:60000,
+        cors:{
+            origin:["http://localhost:3001","http://localhost:5173"]
+        }
     })
+    io.on("connection",(socket)=>{
+        logger.info(`socket connected`) 
+        SocketServer(socket)
+    })
+
+  
+
 })
 
 mongoose.connection.on("error",(err:any)=>{
