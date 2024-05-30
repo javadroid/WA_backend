@@ -26,7 +26,7 @@ mongoose.connect(DBLINK!).then(()=>{
     })
     io.on("connection",(socket)=>{
         logger.info(`socket connected`) 
-        SocketServer(socket)
+        SocketServer(socket,io)
     })
 
   
